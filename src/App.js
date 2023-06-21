@@ -6,9 +6,11 @@ import Footer from './Footer'
 function App() {
   return (
     <div className='background'>
+      <div className='main'>
       {Header()}
       {Middle()}
       {Footer()}
+      </div>
     </div>
   );
 }

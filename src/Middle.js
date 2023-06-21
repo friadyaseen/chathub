@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Middle(m, user_id) {
+export default function Middle() {
     let [userid, setuserid] = useState(0)
     let [M, setM] = useState([{ user_id: 0, username: "frey", m: "Hello, world" }, { user_id: 1, username: "ad", m: "World, Hello" }, { user_id: 0, username: "frey", m: "Hello, world" }, { user_id: 1, username: "ad", m: "World, Hello" }, { user_id: 0, username: "frey", m: "Hello, world" }, { user_id: 1, username: "ad", m: "World, Hello" }, { user_id: 0, username: "frey", m: "Hello, world" }, { user_id: 1, username: "ad", m: "World, Hello" }]);
     return (
