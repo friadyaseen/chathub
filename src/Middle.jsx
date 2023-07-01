@@ -14,6 +14,7 @@ export default function Middle({ messeges }) {
     );
 }
 
+//check if messege is sent or reseved
 function checkuser(usid) {
     if (usid === 1010) {
         return 'm'

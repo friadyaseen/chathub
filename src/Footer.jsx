@@ -3,7 +3,10 @@ import { serverTimestamp } from "firebase/firestore";
 import { addDoc, collection } from "firebase/firestore";
 
 export default function Footer({ db }) {
+    //message text box
     let [Mes, setMes] = useState("")
+
+    //send messege
     async function handlesumbit(e) {
         e.preventDefault()
         if (Mes !== "") {

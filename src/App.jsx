@@ -29,12 +29,19 @@ let temp = [0];
 //ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 function App() {
   let [messeges, setmesseges] = useState([]);
+  //whether user alrdey exists or not
   let [usere, setusere] = useState(false);
+  //user credentials
   let [userc, setuserc] = useState({});
+  //wheter user alredy logged in or not
   let [user, setuser] = useState(false)
+  //for user name text box
   let [username, setusername] = useState("")
+  //fo emial text box
   let [email, setemail] = useState("")
+  //whether user is loggin in or signing up
   let log = false;
+
   //listen to the database for changes in messege collections
   const q = query(collection(db, "messeges"), orderBy("createdAt"));
   useEffect(() => {
@@ -48,8 +55,10 @@ function App() {
     });
   }, [temp])
 
+  //to check for rendering loops
   console.log("renderd")
 
+  //gives login window
   function Login() {
     return (<div className='loginc'>
       <form onSubmit={loguser} className='login'>
@@ -66,28 +75,26 @@ function App() {
     </div>)
   }
 
+  //logs user in or signs user up
   async function loguser(e) {
     e.preventDefault()
+    //check weather text boxes are empty or not
     if (username !== "" && email !== "") {
+      //if user wants to log in
       if (log) {
-        console.log("logged")
-        const userSnapshot = await checkuser()
-        userSnapshot.forEach(doc => {
-          setuserc({
-            email: doc.data().email,
-            username: doc.data().username,
-            id: doc.data().id
-          })})
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        loginuser();
         setuser(true)
       }
+      //else user wants to sign up
       else {
+        //check weather user alredy exist or not
         const userSnapshot = await checkuser()
-
+        //if user exists  
         if (!userSnapshot.empty) {
+          //show user alredy exists messege
           setusere(true)
         } else {
+          //add user to database
           setusere(false)
           let temp1 = username
           let temp2 = email
@@ -98,11 +105,24 @@ function App() {
             email: temp2,
             id: crypto.randomUUID()
           })
+          loginuser()
+          setuser(true)
         }
       }
     }
   }
-
+//set user credentials
+  async function loginuser()
+  {
+    const userSnapshot = await checkuser()
+    userSnapshot.forEach(doc => {
+      setuserc({
+        email: doc.data().email,
+        username: doc.data().username,
+        id: doc.data().id
+      })})
+  }
+//check to see if user exists or not
   async function checkuser() {
     const userRef = collection(db, "users");
 
