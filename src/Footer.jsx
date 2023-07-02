@@ -2,7 +2,7 @@ import { useState } from "react";
 import { serverTimestamp } from "firebase/firestore";
 import { addDoc, collection } from "firebase/firestore";
 
-export default function Footer({ db }) {
+export default function Footer({ db, uid, to }) {
     //message text box
     let [Mes, setMes] = useState("")
 
@@ -12,10 +12,11 @@ export default function Footer({ db }) {
         if (Mes !== "") {
             let temp = Mes
             setMes("")
-            const deccref = await addDoc(collection(db, 'messeges'),{
-                text:temp,
+            const deccref = await addDoc(collection(db, 'messeges'), {
+                text: temp,
                 createdAt: serverTimestamp(),
-                uid: 1010,
+                from: uid,
+                to: to,
                 id: crypto.randomUUID()
             })
 

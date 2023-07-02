@@ -31,12 +31,23 @@ body {
     padding: 2px 10px;
     display: flex;
     align-items: center;
+    justify-content: end;
+}
+
+.profilec {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .profileP {
     height: 90%;
     border-radius: 100px;
-    margin-left: auto;
+}
+
+.username {
+    margin: 0px 5px;
+    color: var(--green);
 }
 
 .h {

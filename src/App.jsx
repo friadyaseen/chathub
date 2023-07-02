@@ -6,11 +6,11 @@ import Footer from './Footer'
 import React, { useEffect, useState } from 'react';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, orderBy, query, onSnapshot, doc, getDocs, where } from "firebase/firestore";
+import { getFirestore, collection, addDoc, orderBy, and, query, onSnapshot, getDocs, where } from "firebase/firestore";
 import 'firebase/firestore'
 import 'firebase/auth'
-
-
+import Cookies from 'js-cookie';
+import { queryByRole } from '@testing-library/react';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAG_OPmOnNF2D5hwhmhJeoKwPnV5XGj4po",
@@ -39,21 +39,42 @@ function App() {
   let [username, setusername] = useState("")
   //fo emial text box
   let [email, setemail] = useState("")
+
+  let [to, setto] = useState("2020")
   //whether user is loggin in or signing up
   let log = false;
+  //cockeise
+  let emp;
+
+  //get user credentials from coockes
+  if (!user) {
+    emp = Cookies.get()
+    if (emp.username !== undefined) {
+      setuserc({
+        email: emp.email,
+        username: emp.username,
+        id: emp.id
+      })
+      setuser(true)
+    }
+  }
+
 
   //listen to the database for changes in messege collections
-  const q = query(collection(db, "messeges"), orderBy("createdAt"));
   useEffect(() => {
-    onSnapshot(q, (querySnapshot) => {
-      const messeges = [];
-      querySnapshot.forEach((doc) => {
-        messeges.push(doc.data());
+    if (user) {
+      const q = query(collection(db, "messeges"), and(where('from', "==", userc.id) ,where('to', "==", to)), orderBy("createdAt"));
+      onSnapshot(q, (querySnapshot) => {
+        const messeges = [];
+        querySnapshot.forEach((doc) => {
+          messeges.push(doc.data());
+        });
+        setmesseges(messeges)
+        temp[0] += 1;
       });
-      setmesseges(messeges)
-      temp[0] += 1;
-    });
-  }, [temp])
+    }
+  }, [temp, user])
+
 
   //to check for rendering loops
   console.log("renderd")
@@ -111,18 +132,23 @@ function App() {
       }
     }
   }
-//set user credentials
-  async function loginuser()
-  {
+  //set user credentials
+  async function loginuser() {
     const userSnapshot = await checkuser()
     userSnapshot.forEach(doc => {
       setuserc({
         email: doc.data().email,
         username: doc.data().username,
         id: doc.data().id
-      })})
+      })
+      savecookies({
+        email: doc.data().email,
+        username: doc.data().username,
+        id: doc.data().id
+      })
+    })
   }
-//check to see if user exists or not
+  //check to see if user exists or not
   async function checkuser() {
     const userRef = collection(db, "users");
 
@@ -130,13 +156,29 @@ function App() {
 
     return await getDocs(q);
   }
+
+  //save cookies
+  function savecookies(data) {
+    Cookies.set('username', data.username, { expires: 7 })
+    Cookies.set('email', data.email, { expires: 7 })
+    Cookies.set('id', data.id, { expires: 7 })
+  }
+
+  //log user out
+  function logout() {
+    setuser(false)
+    setuserc({})
+    Cookies.remove("username")
+    Cookies.remove("id")
+    Cookies.remove("email")
+  }
   return (
     <div className='background'>
       {user}
       <div className='main'>
-        <Header />
-        {user ? <Middle messeges={messeges} /> : Login()}
-        <Footer db={db} />
+        <Header username={userc.username} user={user} logout={logout} />
+        {user ? <Middle messeges={messeges} uid={userc.id} /> : Login()}
+        <Footer to={to} uid={userc.id} db={db} />
       </div>
     </div>
   );
