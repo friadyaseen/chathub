@@ -33,7 +33,9 @@ function App() {
   //whether user alrdey exists or not
   let [usere, setusere] = useState(false);
   //user credentials
-  let [userc, setuserc] = useState({});
+  let [userc, setuserc] = useState({
+    id:"",
+  });
   //wheter user alredy logged in or not
   let [user, setuser] = useState(false)
   //for user name text box
@@ -61,30 +63,6 @@ function App() {
       setuser(true)
     }
   }
-
-  //get list of users
-  //listen to the database for changes in messege collections
-  useEffect(() => {
-    if (user) {
-      const q = query(collection(db, "messeges"), and(where('from', "==", userc.id), where('to', "==", to)), orderBy("createdAt"));
-      const p = query(collection(db, "users"), where("email", "!=", "1"))
-      onSnapshot(q, (querySnapshot) => {
-        const messeges = [];
-        querySnapshot.forEach((doc) => {
-          messeges.push(doc.data());
-        });
-        setmesseges(messeges)
-        temp[0] += 1;
-      });
-      onSnapshot(p, (querySnapshot) => {
-        const f = [];
-        querySnapshot.forEach((doc) => {
-          f.push(doc.data());
-        });
-        setU(f)
-      });
-    }
-  }, [temp, user, to])
 
   //to check for rendering loops
   console.log("renderd")
@@ -173,6 +151,31 @@ function App() {
     Cookies.set('email', data.email, { expires: 7 })
     Cookies.set('id', data.id, { expires: 7 })
   }
+
+  //get list of users
+  //listen to the database for changes in messege collections
+  useEffect(() => {
+    if (user) {
+      console.log(userc.id)
+      const q = query(collection(db, "messeges"), and(where('from', "==", userc.id), where('to', "==", to)), orderBy("createdAt"));
+      const p = query(collection(db, "users"), where("email", "!=", "1"))
+      onSnapshot(q, (querySnapshot) => {
+        const messeges = [];
+        querySnapshot.forEach((doc) => {
+          messeges.push(doc.data());
+        });
+        setmesseges(messeges)
+        temp[0] += 1;
+      });
+      onSnapshot(p, (querySnapshot) => {
+        const f = [];
+        querySnapshot.forEach((doc) => {
+          f.push(doc.data());
+        });
+        setU(f)
+      });
+    }
+  }, [temp, user, to])
 
   //log user out
   function logout() {
