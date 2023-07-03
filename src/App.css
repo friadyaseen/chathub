@@ -6,6 +6,23 @@
     --green: #A2FF86;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--header);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--textbox);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--green);
+  }
+
 body {
     background-color: var(--back);
     padding: 0;
@@ -16,13 +33,14 @@ body {
 
 .background {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0px 20%;
+    justify-content: flex-start;
 }
 
 .main {
     border: var(--mess) solid 3px;
+    border-bottom: none;
+    border-top: none;
+    width: 60%;
 }
 
 .header {
@@ -53,7 +71,7 @@ body {
 .h {
     overflow: scroll;
     overflow-x: hidden;
-    height: 545px;
+    height: 552px;
 }
 
 .middle {
@@ -123,18 +141,28 @@ input {
 }
 
 .send-btn {
-    width: 10%;
-    height: 80%;
-    background-color: var(--textbox);
-    border: black solid 2px;
+    width: auto;
+    height: auto;
+    border-radius: 30px;
+    border: none;
+    background-color: var(--header);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sendi {
+    width: 60px;
+
 }
 
 .send-btn:hover {
-    color: white;
+    background-color: #28637a;
 }
 
 .send-btn:active {
-    color: black;
+    background-color: var(--header);
 }
 
 .loginc,
@@ -193,4 +221,50 @@ label {
 
 .usere {
     color: red;
+}
+
+.v {
+    height: 667px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 20%;
+}
+
+.friendc {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+}
+
+.friend {
+    display: flex;
+    height: 70px;
+    border-bottom: var(--green) solid 2px;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: border-radius 0.15s;
+}
+
+.friend:hover {
+    background-color: #3b5374;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.friend:active {
+    border: none;
+    height: 72px;
+}
+
+.friend-p {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 30px;
+}
+
+.friend-name {
+    font-size: 20px;
+    color: white;
 }

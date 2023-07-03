@@ -2,6 +2,7 @@ import './App.css';
 import Header from './Header'
 import Middle from './Middle'
 import Footer from './Footer'
+import Friendlist from './Friendlist';
 
 import React, { useEffect, useState } from 'react';
 
@@ -40,6 +41,8 @@ function App() {
   //fo emial text box
   let [email, setemail] = useState("")
 
+  let [U, setU] = useState([])
+
   let [to, setto] = useState("2020")
   //whether user is loggin in or signing up
   let log = false;
@@ -59,11 +62,12 @@ function App() {
     }
   }
 
-
+  //get list of users
   //listen to the database for changes in messege collections
   useEffect(() => {
     if (user) {
-      const q = query(collection(db, "messeges"), and(where('from', "==", userc.id) ,where('to', "==", to)), orderBy("createdAt"));
+      const q = query(collection(db, "messeges"), and(where('from', "==", userc.id), where('to', "==", to)), orderBy("createdAt"));
+      const p = query(collection(db, "users"), where("email", "!=", "1"))
       onSnapshot(q, (querySnapshot) => {
         const messeges = [];
         querySnapshot.forEach((doc) => {
@@ -72,9 +76,15 @@ function App() {
         setmesseges(messeges)
         temp[0] += 1;
       });
+      onSnapshot(p, (querySnapshot) => {
+        const f = [];
+        querySnapshot.forEach((doc) => {
+          f.push(doc.data());
+        });
+        setU(f)
+      });
     }
   }, [temp, user])
-
 
   //to check for rendering loops
   console.log("renderd")
@@ -174,7 +184,7 @@ function App() {
   }
   return (
     <div className='background'>
-      {user}
+      <Friendlist users={U}/>
       <div className='main'>
         <Header username={userc.username} user={user} logout={logout} />
         {user ? <Middle messeges={messeges} uid={userc.id} /> : Login()}
