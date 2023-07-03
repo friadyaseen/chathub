@@ -7,7 +7,7 @@ import Friendlist from './Friendlist';
 import React, { useEffect, useState } from 'react';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, orderBy, and, query, onSnapshot, getDocs, where } from "firebase/firestore";
+import { getFirestore, collection, addDoc, orderBy, and, or, query, onSnapshot, getDocs, where } from "firebase/firestore";
 import 'firebase/firestore'
 import 'firebase/auth'
 import Cookies from 'js-cookie';
@@ -34,7 +34,7 @@ function App() {
   let [usere, setusere] = useState(false);
   //user credentials
   let [userc, setuserc] = useState({
-    id:"",
+    id: "",
   });
   //wheter user alredy logged in or not
   let [user, setuser] = useState(false)
@@ -157,7 +157,8 @@ function App() {
   useEffect(() => {
     if (user) {
       console.log(userc.id)
-      const q = query(collection(db, "messeges"), and(where('from', "==", userc.id), where('to', "==", to)), orderBy("createdAt"));
+      const q = query(collection(db, "messeges"), or(and(where('from', "==", userc.id), where('to', "==", to)),
+      and(where('to', "==", userc.id), where('from', "==", to))), orderBy("createdAt"));
       const p = query(collection(db, "users"), where("email", "!=", "1"))
       onSnapshot(q, (querySnapshot) => {
         const messeges = [];
@@ -187,7 +188,7 @@ function App() {
   }
   return (
     <div className='background'>
-      <Friendlist setto={setto} users={U}/>
+      <Friendlist setto={setto} users={U} />
       <div className='main'>
         <Header username={userc.username} user={user} logout={logout} />
         {user ? <Middle messeges={messeges} uid={userc.id} /> : Login()}
