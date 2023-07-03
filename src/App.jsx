@@ -43,7 +43,7 @@ function App() {
 
   let [U, setU] = useState([])
 
-  let [to, setto] = useState("2020")
+  let [to, setto] = useState("")
   //whether user is loggin in or signing up
   let log = false;
   //cockeise
@@ -84,7 +84,7 @@ function App() {
         setU(f)
       });
     }
-  }, [temp, user])
+  }, [temp, user, to])
 
   //to check for rendering loops
   console.log("renderd")
@@ -184,7 +184,7 @@ function App() {
   }
   return (
     <div className='background'>
-      <Friendlist users={U}/>
+      <Friendlist setto={setto} users={U}/>
       <div className='main'>
         <Header username={userc.username} user={user} logout={logout} />
         {user ? <Middle messeges={messeges} uid={userc.id} /> : Login()}
