@@ -2,7 +2,7 @@ import sendi from "./d.svg"
 
 import { useState } from "react";
 import { serverTimestamp } from "firebase/firestore";
-import { addDoc, collection } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 
 export default function Footer({ db, uid, to }) {
     //message text box
@@ -14,12 +14,13 @@ export default function Footer({ db, uid, to }) {
         if (Mes !== "") {
             let temp = Mes
             setMes("")
-            const deccref = await addDoc(collection(db, 'messeges'), {
+            let id = crypto.randomUUID();
+            const deccref = await setDoc(doc(db, 'messeges', id), {
                 text: temp,
                 createdAt: serverTimestamp(),
                 from: uid,
                 to: to,
-                id: crypto.randomUUID()
+                id: id
             })
 
         }

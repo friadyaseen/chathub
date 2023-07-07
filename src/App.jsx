@@ -4,7 +4,7 @@ import Middle from './Middle'
 import Footer from './Footer'
 import Friendlist from './Friendlist';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, orderBy, and, or, query, onSnapshot, getDocs, where } from "firebase/firestore";
@@ -50,6 +50,8 @@ function App() {
   let log = false;
   //cockeise
   let emp;
+
+  const scrol = useRef()
 
   //get user credentials from coockes
   if (!user) {
@@ -156,9 +158,8 @@ function App() {
   //listen to the database for changes in messege collections
   useEffect(() => {
     if (user) {
-      console.log(userc.id)
       const q = query(collection(db, "messeges"), or(and(where('from', "==", userc.id), where('to', "==", to)),
-      and(where('to', "==", userc.id), where('from', "==", to))), orderBy("createdAt"));
+        and(where('to', "==", userc.id), where('from', "==", to))), orderBy("createdAt"));
       const p = query(collection(db, "users"), where("email", "!=", "1"))
       onSnapshot(q, (querySnapshot) => {
         const messeges = [];
@@ -166,6 +167,7 @@ function App() {
           messeges.push(doc.data());
         });
         setmesseges(messeges)
+        scrol.current.scrollIntoView({ behavior: "smooth" });
         temp[0] += 1;
       });
       onSnapshot(p, (querySnapshot) => {
@@ -191,7 +193,14 @@ function App() {
       <Friendlist setto={setto} users={U} />
       <div className='main'>
         <Header username={userc.username} user={user} logout={logout} />
-        {user ? <Middle messeges={messeges} uid={userc.id} /> : Login()}
+        {user ? (
+          <div className="h">
+            <div className="middle">
+              <Middle db={db} messeges={messeges} uid={userc.id} />
+              <div ref={scrol}></div>
+            </div>
+          </div>
+        ) : Login()}
         <Footer to={to} uid={userc.id} db={db} />
       </div>
     </div>

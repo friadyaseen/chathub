@@ -97,6 +97,13 @@ body {
     margin-bottom: 10px;
 }
 
+.messege-c {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #m {
     margin-left: auto;
 }
@@ -267,4 +274,16 @@ label {
 .friend-name {
     font-size: 20px;
     color: white;
+}
+
+#s {
+    color: var(--green);
+}
+
+.no-messege {
+    color: white;
+}
+
+button {
+    cursor: pointer;
 }
