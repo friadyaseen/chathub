@@ -17,11 +17,11 @@
 ::-webkit-scrollbar-thumb {
     background: var(--textbox);
     border-radius: 10px;
-  }
+}
 
-  ::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
     background: var(--green);
-  }
+}
 
 body {
     background-color: var(--back);
@@ -68,6 +68,22 @@ body {
     color: var(--green);
 }
 
+.log-out {
+    background-color: var(--textbox);
+    border: solid var(--green) 1px;
+    padding: 5px;
+    border-radius: 15px;
+    color: white;
+}
+
+.log-btn:hover {
+    color: black;
+}
+
+.log-btn:active {
+    border: solid black 1px;
+}
+
 .h {
     overflow: scroll;
     overflow-x: hidden;
@@ -102,6 +118,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.del-btn {
+    cursor: pointer;
+}
+
+.del-btn:hover {
+    filter: invert(71%) sepia(66%) saturate(374%) hue-rotate(139deg) brightness(85%) contrast(90%);
+}
+
+.del-btn:active {
+    filter: invert(79%) sepia(47%) saturate(409%) hue-rotate(55deg) brightness(104%) contrast(104%);
 }
 
 #m {

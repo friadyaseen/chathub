@@ -11,7 +11,7 @@ export default function Footer({ db, uid, to }) {
     //send messege
     async function handlesumbit(e) {
         e.preventDefault()
-        if (Mes !== "") {
+        if (Mes !== "" && to !== "") {
             let temp = Mes
             setMes("")
             let id = crypto.randomUUID();

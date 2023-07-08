@@ -1,6 +1,6 @@
 
 import { useState } from 'react'
-import profileP from './flower.png'
+import profileP from './dd.png'
 
 export default function Friendlist({ users, setto }) {
     let [sel, setsel] = useState("")

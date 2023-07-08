@@ -3,7 +3,6 @@ import Header from './Header'
 import Middle from './Middle'
 import Footer from './Footer'
 import Friendlist from './Friendlist';
-
 import React, { useEffect, useRef, useState } from 'react';
 
 import { initializeApp } from "firebase/app";
@@ -28,7 +27,7 @@ const db = getFirestore(initializeApp(firebaseConfig))
 let temp = [0];
 
 //ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-function App() {
+function App() {;
   let [messeges, setmesseges] = useState([]);
   //whether user alrdey exists or not
   let [usere, setusere] = useState(false);
@@ -187,6 +186,7 @@ function App() {
     Cookies.remove("username")
     Cookies.remove("id")
     Cookies.remove("email")
+    window.location.reload(true);
   }
   return (
     <div className='background'>
@@ -196,7 +196,7 @@ function App() {
         {user ? (
           <div className="h">
             <div className="middle">
-              <Middle db={db} messeges={messeges} uid={userc.id} />
+              <Middle to={to} db={db} messeges={messeges} uid={userc.id} />
               <div ref={scrol}></div>
             </div>
           </div>
