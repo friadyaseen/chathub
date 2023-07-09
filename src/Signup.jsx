@@ -40,7 +40,7 @@ export default function Signup({ db, checkuser, loginuser, setuser, setlog, emai
                     profile: e
                 })
                 if (blob === undefined) {
-                    e = "https://firebasestorage.googleapis.com/v0/b/data-7f85e.appspot.com/o/image%2Fdd.jpg?alt=media&token=38f706ad-5622-43e7-846f-2103d245f16e"
+                    e = ""
                 } else {
                     const storageRef = ref(storage, "image/" + id + ".jpg");
                     await uploadBytes(storageRef, blob).then((snapshot) => {

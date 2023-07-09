@@ -1,3 +1,5 @@
+import ff from './dd.jpg'
+
 export default function Header({ username, profile }) {
     return (
         <div className="header">
@@ -12,7 +14,7 @@ export default function Header({ username, profile }) {
             <div className="sect">
                 <div className='profilec'>
                     <p className='username'>{username}</p>
-                    <img src={profile} alt="profileP" className="profileP"></img>
+                    <img src={profile === "" ? ff :profile} alt="profileP" className="profileP"></img>
                 </div>
             </div>
         </div>

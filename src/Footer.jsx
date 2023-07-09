@@ -1,4 +1,4 @@
-
+import send from './send.svg'
 
 import { useState } from "react";
 import { serverTimestamp } from "firebase/firestore";
@@ -30,7 +30,7 @@ export default function Footer({ db, uid, to }) {
             <form onSubmit={handlesumbit} className="footer">
                 <input type="text" className="textbox" value={Mes} onChange={e => setMes(e.target.value)}></input>
                 <button className="send-btn">
-                <i id="sendi" className="fa-regular fa-circle-play"></i>
+                <img src={send} id="sendi"/>
                 </button>
             </form>
         </>

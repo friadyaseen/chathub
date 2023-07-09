@@ -69,7 +69,7 @@ function App() {
   }
 
   async function setp() {
-    getDownloadURL(ref(storage, 'image/' + "dd" + ".jpg")).then(async (url) => {
+    getDownloadURL(ref(storage, 'image/' + userc.id + ".jpg")).then(async (url) => {
       setuserc({
         email: userc.email,
         username: userc.username,
@@ -79,12 +79,11 @@ function App() {
       await updateDoc(doc(db, "users", userc.id), {
         profile: url
       });
-
     }).catch(async (err) => {
       console.log(err)
     })
   }
-
+  
   //to check for rendering loops
   console.log("renderd")
 

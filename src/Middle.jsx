@@ -1,4 +1,5 @@
 import { doc,deleteDoc, } from "firebase/firestore";
+import trash from './trash.svg'
 
 
 export default function Middle({ messeges, userc, uid, db, to, toi }) {
@@ -19,7 +20,7 @@ export default function Middle({ messeges, userc, uid, db, to, toi }) {
                     <div key={msg.id} id={checkuser(msg.from, uid)} className="messege-c">
                         {checkuser(msg.from, uid) === 'm' ?
                             <>
-                                <i id="del" onClick={() => deletemessege(msg.id)} className="fa-regular fa-trash-can"></i>
+                                <img src={trash} id="del" onClick={() => deletemessege(msg.id)}/>
                                 <div className="messege-b">
                                     <p className="messege">{msg.text}</p>
                                 </div >
@@ -30,7 +31,7 @@ export default function Middle({ messeges, userc, uid, db, to, toi }) {
                                 <div className="messege-b">
                                     <p className="messege">{msg.text}</p>
                                 </div>
-                                <i id="del" onClick={() => deletemessege(msg.id)} className="fa-regular fa-trash-can"></i>
+                                <img src={trash} id="del" onClick={() => deletemessege(msg.id)}/>
 
                             </>}
                     </div>

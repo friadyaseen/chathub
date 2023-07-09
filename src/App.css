@@ -175,16 +175,14 @@ body {
 }
 
 #del {
-    color: #943232;
+    filter: invert(22%) sepia(59%) saturate(1666%) hue-rotate(331deg) brightness(91%) contrast(88%);
     cursor: pointer;
     font-size: 20px;
 }
 
 #del:hover {
-    color: var(--red);
+    filter: invert(41%) sepia(100%) saturate(4653%) hue-rotate(343deg) brightness(100%) contrast(107%);
 }
-
-
 
 .footer {
     background-color: var(--header);
@@ -227,16 +225,16 @@ input {
 }
 
 #sendi {
-    font-size: 45px;
-    color: var(--green);
+    width: 60px;
+    filter: invert(73%) sepia(46%) saturate(3848%) hue-rotate(64deg) brightness(115%) contrast(105%);
 }
 
 .send-btn:hover > #sendi {
-    color: var(--yellow);
+    filter: invert(71%) sepia(82%) saturate(574%) hue-rotate(8deg) brightness(106%) contrast(101%);;
 }
 
 .send-btn:active > #sendi {
-    color: var(--blue);
+    filter: invert(71%) sepia(78%) saturate(231%) hue-rotate(129deg) brightness(99%) contrast(94%)
 }
 
 .loginc,

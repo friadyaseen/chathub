@@ -1,6 +1,6 @@
 import { doc , getDoc } from "firebase/firestore";
 import { useState } from 'react'
-
+import ff from "./dd.jpg"
 
 
 
@@ -20,7 +20,7 @@ return <div className="v">
             users.map((u, i) => {
                 return (
                     <div onClick={() => setuser(u.id)} key={u.id} id={u.id} className="friend">
-                        <img src={u.profile} className='friend-p' alt='profile picture'></img>
+                        <img src={u.profile === "" ? ff :u.profile} className='friend-p' alt='profile picture'></img>
                         <p id={setcurrentfriend(sel, u.id)} className='friend-name'>{u.username}</p>
                     </div>)
             })
