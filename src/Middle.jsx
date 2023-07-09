@@ -1,7 +1,7 @@
-import { doc, getDoc, deleteDoc, query, collection, where } from "firebase/firestore";
-import deleteicon from "./deleteicon.svg"
+import { doc,deleteDoc, } from "firebase/firestore";
 
-export default function Middle({ messeges, uid, db, to }) {
+
+export default function Middle({ messeges, userc, uid, db, to, toi }) {
 
     let temp = false;
     if (messeges.length < 1) {
@@ -19,16 +19,19 @@ export default function Middle({ messeges, uid, db, to }) {
                     <div key={msg.id} id={checkuser(msg.from, uid)} className="messege-c">
                         {checkuser(msg.from, uid) === 'm' ?
                             <>
-                                <img src={deleteicon} onClick={() => deletemessege(msg.id)} className="del-btn" />
+                                <i id="del" onClick={() => deletemessege(msg.id)} className="fa-regular fa-trash-can"></i>
                                 <div className="messege-b">
                                     <p className="messege">{msg.text}</p>
-                                </div>
+                                </div >
+                                <img  className="prifile-m" src={userc.profile}/>
                             </>
                             : <>
+                                <img className="prifile-m" src={toi.profile}/>
                                 <div className="messege-b">
                                     <p className="messege">{msg.text}</p>
                                 </div>
-                                <img src={deleteicon} onClick={() => deletemessege(msg.id)} className="del-btn" />
+                                <i id="del" onClick={() => deletemessege(msg.id)} className="fa-regular fa-trash-can"></i>
+
                             </>}
                     </div>
                 )

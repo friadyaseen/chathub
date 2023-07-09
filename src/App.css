@@ -1,9 +1,11 @@
 :root {
-    --back: #27374D;
-    --mess: #1B6B93;
-    --header: #164B60;
-    --textbox: #4FC0D0;
-    --green: #A2FF86;
+    --back: #0D1117;
+    --yellow: #F1E000;
+    --header: #212935;
+    --blue: #72E6E3;
+    --green: #39FF14;
+    --red: #FF3131;
+    --grey: #bdbdbd;
 }
 
 ::-webkit-scrollbar {
@@ -11,11 +13,11 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--header);
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--textbox);
+    background: var(--blue);
     border-radius: 10px;
 }
 
@@ -37,7 +39,7 @@ body {
 }
 
 .main {
-    border: var(--mess) solid 3px;
+    border: var(--yellow) solid 3px;
     border-bottom: none;
     border-top: none;
     width: 60%;
@@ -47,6 +49,35 @@ body {
     background-color: var(--header);
     height: 45px;
     padding: 2px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo > span {
+    font-size: 24px;
+    font-weight:500;
+}
+
+#a {
+    color: var(--green);
+}
+
+#b {
+    color: var(--blue);
+}
+
+#c {
+    color: var(--yellow);
+}
+
+#d {
+    color: var(--red);
+}
+
+
+.sect {
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -63,24 +94,25 @@ body {
     border-radius: 100px;
 }
 
+
 .username {
     margin: 0px 5px;
     color: var(--green);
 }
 
 .log-out {
-    background-color: var(--textbox);
+    background-color: var(--blue);
     border: solid var(--green) 1px;
     padding: 5px;
     border-radius: 15px;
     color: white;
 }
 
-.log-btn:hover {
+.log-out:hover {
     color: black;
 }
 
-.log-btn:active {
+.log-out:active {
     border: solid black 1px;
 }
 
@@ -99,7 +131,7 @@ body {
 }
 
 .messege-b {
-    background-color: var(--mess);
+    border: solid 2px var(--yellow);
     width: auto;
     max-width: 80%;
     word-break: break-all;
@@ -116,36 +148,42 @@ body {
 .messege-c {
     width: auto;
     display: flex;
+    gap: 5px;
     justify-content: center;
     align-items: center;
 }
 
-.del-btn {
-    cursor: pointer;
-}
-
-.del-btn:hover {
-    filter: invert(71%) sepia(66%) saturate(374%) hue-rotate(139deg) brightness(85%) contrast(90%);
-}
-
-.del-btn:active {
-    filter: invert(79%) sepia(47%) saturate(409%) hue-rotate(55deg) brightness(104%) contrast(104%);
-}
 
 #m {
-    margin-left: auto;
+    justify-content: flex-end;
 }
 
 #u {
-    margin-right: auto;
+    justify-content: start;
 }
 
 .messege-b>p {
     margin: 0px;
     font-size: 15px;
-    color: white;
+    color: var(--grey);
     line-height: 20px;
 }
+
+.prifile-m {
+    border-radius: 30px;
+    width: 50px;
+}
+
+#del {
+    color: #943232;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#del:hover {
+    color: var(--red);
+}
+
 
 
 .footer {
@@ -163,9 +201,9 @@ input {
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
-    background-color: var(--textbox);
-    border: black solid 1px;
-    color: white;
+    background-color: transparent;
+    border: var(--blue) solid 2px;
+    color: var(--grey);
     border-radius: 50px;
 }
 
@@ -180,6 +218,7 @@ input {
     height: auto;
     border-radius: 30px;
     border: none;
+    margin-right: 7%;
     background-color: var(--header);
     display: flex;
     align-items: center;
@@ -187,21 +226,21 @@ input {
     cursor: pointer;
 }
 
-.sendi {
-    width: 60px;
-
+#sendi {
+    font-size: 45px;
+    color: var(--green);
 }
 
-.send-btn:hover {
-    background-color: #28637a;
+.send-btn:hover > #sendi {
+    color: var(--yellow);
 }
 
-.send-btn:active {
-    background-color: var(--header);
+.send-btn:active > #sendi {
+    color: var(--blue);
 }
 
 .loginc,
-.login {
+.login, .ff {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -212,12 +251,17 @@ input {
     height: 545px;
 }
 
-.login {
+.ff {
     max-width: 20%;
     background-color: var(--header);
-    border: var(--mess) solid 3px;
+    border: var(--yellow) solid 3px;
     border-radius: 15px;
     padding: 20px;
+}
+
+.login {
+    width: 100%;
+
 }
 
 label {
@@ -233,25 +277,24 @@ label {
     margin-bottom: 5px;
 }
 
-.btn-c {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
 
 .log-btn {
     padding: 5px;
-    background-color: var(--textbox);
-    border: black solid 1px;
+    background-color: transparent;
+    border: var(--blue) solid 2px;
     border-radius: 10px;
+    color: var(--grey);
+    margin-bottom: 5px;
 }
 
 .log-btn:hover {
-    color: white;
+    border: var(--yellow) solid 2px;
+
 }
 
 .log-btn:active {
-    color: black;
+    border: var(--green) solid 2px;
+
 }
 
 .usere {
@@ -282,7 +325,7 @@ label {
 }
 
 .friend:hover {
-    background-color: #3b5374;
+    background-color: var(--header);
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
 }
@@ -314,4 +357,69 @@ label {
 
 button {
     cursor: pointer;
+}
+
+.sign-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding-top: 17%;
+}
+
+.hf {
+    background-color: var(--header);
+    padding: 20px;
+    border: solid 3px var(--yellow);
+    border-radius: 30px;
+}
+
+.sign-form {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+}
+
+.sl {
+    height: 25px;
+    padding: 0px 8px;
+    width: 100%;
+}
+
+.mm::-webkit-file-upload-button {
+    background-color:  transparent;
+    border: none;
+    border-right: solid 2px var(--blue);
+    color:var(--blue);
+    cursor: pointer;
+  }
+
+.sign-btn {
+    padding: 10px;
+    border: solid var(--yellow) 2px;
+    border-radius: 15px;
+    background-color: transparent;
+    color: var(--yellow);
+    margin-top: 5px;
+}
+.sign-btn:hover {
+    border: solid var(--green) 2px;
+    color: var(--green);
+}
+.sign-btn:active {
+    border: solid var(--blue) 2px;
+    color: var(--blue);
+}
+
+.ll {
+    border: none;
+    background-color: transparent;
+    color: #943232;
+}
+
+.ll:hover {
+    color: var(--red);
 }

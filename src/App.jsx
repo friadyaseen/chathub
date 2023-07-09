@@ -3,53 +3,49 @@ import Header from './Header'
 import Middle from './Middle'
 import Footer from './Footer'
 import Friendlist from './Friendlist';
-import React, { useEffect, useRef, useState } from 'react';
+import Profile from './Profile'
+import React, { useEffect, useRef, useState, useTransition } from 'react';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, orderBy, and, or, query, onSnapshot, getDocs, where } from "firebase/firestore";
+import { updateDoc, getFirestore, collection, orderBy, and, or, query, onSnapshot, getDocs, where, doc } from "firebase/firestore";
 import 'firebase/firestore'
 import 'firebase/auth'
 import Cookies from 'js-cookie';
 import { queryByRole } from '@testing-library/react';
+import Signup from './Signup';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAG_OPmOnNF2D5hwhmhJeoKwPnV5XGj4po",
-  authDomain: "data-7f85e.firebaseapp.com",
-  databaseURL: "https://data-7f85e-default-rtdb.firebaseio.com",
-  projectId: "data-7f85e",
-  storageBucket: "data-7f85e.appspot.com",
-  messagingSenderId: "608100569615",
-  appId: "1:608100569615:web:7c8e268d3b45237ac1c97a",
-  measurementId: "G-MNL44MFR0H"
-};
+import { getStorage, getDownloadURL, ref } from 'firebase/storage'
+
+import { firebaseConfig } from "./firebaseconfig"
+
+const app = initializeApp(firebaseConfig)
 
 const db = getFirestore(initializeApp(firebaseConfig))
 let temp = [0];
 
+const storage = getStorage(app);
+
 //ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-function App() {;
+function App() {
   let [messeges, setmesseges] = useState([]);
-  //whether user alrdey exists or not
-  let [usere, setusere] = useState(false);
   //user credentials
   let [userc, setuserc] = useState({
     id: "",
   });
   //wheter user alredy logged in or not
   let [user, setuser] = useState(false)
-  //for user name text box
-  let [username, setusername] = useState("")
-  //fo emial text box
+  //for emial text box
   let [email, setemail] = useState("")
 
   let [U, setU] = useState([])
 
   let [to, setto] = useState("")
   //whether user is loggin in or signing up
-  let log = false;
+  let [log, setlog] = useState(false);
   //cockeise
   let emp;
-
+  let [toi, settoi] = useState({})
+  let [l, setl] = useState(false)
   const scrol = useRef()
 
   //get user credentials from coockes
@@ -59,10 +55,34 @@ function App() {;
       setuserc({
         email: emp.email,
         username: emp.username,
-        id: emp.id
+        id: emp.id,
+        profile: emp.profile
       })
       setuser(true)
     }
+  }
+
+  if (user) {
+    if (userc.profile === "") {
+      setp()
+    }
+  }
+
+  async function setp() {
+    getDownloadURL(ref(storage, 'image/' + "dd" + ".jpg")).then(async (url) => {
+      setuserc({
+        email: userc.email,
+        username: userc.username,
+        id: userc.id,
+        profile: url
+      })
+      await updateDoc(doc(db, "users", userc.id), {
+        profile: url
+      });
+
+    }).catch(async (err) => {
+      console.log(err)
+    })
   }
 
   //to check for rendering loops
@@ -71,71 +91,48 @@ function App() {;
   //gives login window
   function Login() {
     return (<div className='loginc'>
-      <form onSubmit={loguser} className='login'>
-        {usere ? <label className='usere'>User alredy exists</label> : <></>}
-        <label>Email</label>
-        <input autoComplete="off" value={email} onChange={e => setemail(e.target.value)} type='email' className='log-txt'></input>
-        <label>Username</label>
-        <input autoComplete="off" value={username} onChange={e => setusername(e.target.value)} type='text' id='username' className='log-txt'></input>
-        <div className='btn-c'>
-          <button onClick={() => log = true} className='log-btn'>Login</button>
-          <button onClick={() => log = false} className='log-btn'>Sing Up</button>
-        </div>
-      </form>
+      <div className='ff'>
+        <form onSubmit={loguser} className='login'>
+          <label>Email</label>
+          <input autoComplete="off" value={email} onChange={e => setemail(e.target.value)} type='email' className='log-txt'></input>
+          {l ? <label style={{color: "var(--red)"}}>User not found</label> : <></>}
+          <button className='log-btn'>Login</button>
+        </form>
+        <button onClick={() => setlog(true)} className='log-btn'>Sing Up</button>
+      </div>
     </div>)
   }
 
-  //logs user in or signs user up
+  //logs user in
   async function loguser(e) {
     e.preventDefault()
-    //check weather text boxes are empty or not
-    if (username !== "" && email !== "") {
-      //if user wants to log in
-      if (log) {
-        loginuser();
-        setuser(true)
-      }
-      //else user wants to sign up
-      else {
-        //check weather user alredy exist or not
-        const userSnapshot = await checkuser()
-        //if user exists  
-        if (!userSnapshot.empty) {
-          //show user alredy exists messege
-          setusere(true)
-        } else {
-          //add user to database
-          setusere(false)
-          let temp1 = username
-          let temp2 = email
-          setusername("")
-          setemail("")
-          const deccref = await addDoc(collection(db, 'users'), {
-            username: temp1,
-            email: temp2,
-            id: crypto.randomUUID()
-          })
-          loginuser()
-          setuser(true)
-        }
-      }
+    //check weather text boxe is empty or not
+    if (email !== "") {
+      loginuser();
     }
   }
   //set user credentials
   async function loginuser() {
     const userSnapshot = await checkuser()
-    userSnapshot.forEach(doc => {
-      setuserc({
-        email: doc.data().email,
-        username: doc.data().username,
-        id: doc.data().id
+    if (!userSnapshot.empty) {
+      userSnapshot.forEach(doc => {
+        setuserc({
+          email: doc.data().email,
+          username: doc.data().username,
+          id: doc.data().id,
+          profile: doc.data().profile
+        })
+        savecookies({
+          email: doc.data().email,
+          username: doc.data().username,
+          id: doc.data().id,
+          profile: doc.data().profile
+        })
       })
-      savecookies({
-        email: doc.data().email,
-        username: doc.data().username,
-        id: doc.data().id
-      })
-    })
+      setuser(true)
+    } else {
+      setl(true)
+    }
   }
   //check to see if user exists or not
   async function checkuser() {
@@ -146,11 +143,14 @@ function App() {;
     return await getDocs(q);
   }
 
+
+
   //save cookies
   function savecookies(data) {
     Cookies.set('username', data.username, { expires: 7 })
     Cookies.set('email', data.email, { expires: 7 })
     Cookies.set('id', data.id, { expires: 7 })
+    Cookies.set('profile', data.profile, { expires: 7 })
   }
 
   //get list of users
@@ -175,6 +175,7 @@ function App() {;
           f.push(doc.data());
         });
         setU(f)
+
       });
     }
   }, [temp, user, to])
@@ -186,23 +187,29 @@ function App() {;
     Cookies.remove("username")
     Cookies.remove("id")
     Cookies.remove("email")
+    Cookies.remove("profile")
     window.location.reload(true);
   }
   return (
     <div className='background'>
-      <Friendlist setto={setto} users={U} />
-      <div className='main'>
-        <Header username={userc.username} user={user} logout={logout} />
-        {user ? (
-          <div className="h">
-            <div className="middle">
-              <Middle to={to} db={db} messeges={messeges} uid={userc.id} />
-              <div ref={scrol}></div>
+      {log ? <>
+        <Signup email={email} setemail={setemail} db={db} checkuser={checkuser} loginuser={loginuser} setuser={setuser} setlog={setlog} />
+      </> : <>
+        <Friendlist db={db} settoi={settoi} setto={setto} users={U} />
+        <div className='main'>
+          <Header profile={userc.profile} username={userc.username} user={user} logout={logout} />
+          {user ? (
+            <div className="h">
+              <div className="middle">
+                <Middle userc={userc} toi={toi} to={to} db={db} messeges={messeges} uid={userc.id} />
+                <div ref={scrol}></div>
+              </div>
             </div>
-          </div>
-        ) : Login()}
-        <Footer to={to} uid={userc.id} db={db} />
-      </div>
+          ) : Login()}
+          <Footer to={to} uid={userc.id} db={db} />
+        </div>
+        <Profile user={user} logout={logout} />
+      </>}
     </div>
   );
 }

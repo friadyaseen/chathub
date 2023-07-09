@@ -1,33 +1,38 @@
-
+import { doc , getDoc } from "firebase/firestore";
 import { useState } from 'react'
-import profileP from './dd.png'
 
-export default function Friendlist({ users, setto }) {
+
+
+
+export default function Friendlist({db, users, setto, settoi}) {
     let [sel, setsel] = useState("")
-    function setuser(id){
+    async function setuser(id) {
+        const f = await getDoc(doc(db, "users", id));
+        settoi(f.data())
         setto(id)
         setsel(id)
     }
-    return <div className="v">
-        <div className="friendc">
-            {
-                users.map((u) => {
-                    return (
+
+
+return <div className="v">
+    <div className="friendc">
+        {
+            users.map((u, i) => {
+                return (
                     <div onClick={() => setuser(u.id)} key={u.id} id={u.id} className="friend">
-                        <img src={profileP} className='friend-p' alt='profile picture'></img>
+                        <img src={u.profile} className='friend-p' alt='profile picture'></img>
                         <p id={setcurrentfriend(sel, u.id)} className='friend-name'>{u.username}</p>
                     </div>)
-                })
-            }
-        </div>
+            })
+        }
     </div>
+</div>
 }
 
-function setcurrentfriend(currentfreind, friend)
-{
-    if(currentfreind === friend)
-    {
+
+function setcurrentfriend(currentfreind, friend) {
+    if (currentfreind === friend) {
         return "s"
-    } 
+    }
     return "b"
 }
