@@ -142,8 +142,6 @@ function App() {
     return await getDocs(q);
   }
 
-
-
   //save cookies
   function savecookies(data) {
     Cookies.set('username', data.username, { expires: 7 })
@@ -174,7 +172,6 @@ function App() {
           f.push(doc.data());
         });
         setU(f)
-
       });
     }
   }, [temp, user, to])
@@ -196,7 +193,7 @@ function App() {
       </> : <>
         <Friendlist db={db} settoi={settoi} setto={setto} users={U} />
         <div className='main'>
-          <Header profile={userc.profile} username={userc.username} user={user} logout={logout} />
+          <Header user={user} profile={userc.profile} username={userc.username} logout={logout} />
           {user ? (
             <div className="h">
               <div className="middle">
@@ -207,7 +204,7 @@ function App() {
           ) : Login()}
           <Footer to={to} uid={userc.id} db={db} />
         </div>
-        <Profile user={user} logout={logout} />
+        <Profile userc={userc} user={user} logout={logout} />
       </>}
     </div>
   );
