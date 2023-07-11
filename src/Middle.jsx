@@ -1,10 +1,11 @@
-import { doc,deleteDoc, } from "firebase/firestore";
+import { doc, deleteDoc, } from "firebase/firestore";
 import trash from './trash.svg'
+import { useState } from "react";
 
 
 export default function Middle({ messeges, userc, uid, db, to, toi }) {
-
     let temp = false;
+
     if (messeges.length < 1) {
         temp = true;
     }
@@ -12,6 +13,7 @@ export default function Middle({ messeges, userc, uid, db, to, toi }) {
     async function deletemessege(id) {
         await deleteDoc(doc(db, "messeges", id));
     }
+
     return (
         <>
             {messeges.map((msg) => {
@@ -20,19 +22,18 @@ export default function Middle({ messeges, userc, uid, db, to, toi }) {
                     <div key={msg.id} id={checkuser(msg.from, uid)} className="messege-c">
                         {checkuser(msg.from, uid) === 'm' ?
                             <>
-                                <img src={trash} id="del" onClick={() => deletemessege(msg.id)}/>
+                                <img src={trash} id="del" onClick={() => deletemessege(msg.id)} />
                                 <div className="messege-b">
                                     <p className="messege">{msg.text}</p>
                                 </div >
-                                <img  className="prifile-m" src={userc.profile}/>
+                                <img className="prifile-m" src={userc.profile} />
                             </>
                             : <>
-                                <img className="prifile-m" src={toi.profile}/>
+                                <img className="prifile-m" src={toi.profile} />
                                 <div className="messege-b">
                                     <p className="messege">{msg.text}</p>
                                 </div>
-                                <img src={trash} id="del" onClick={() => deletemessege(msg.id)}/>
-
+                                <img src={trash} id="del" onClick={() => deletemessege(msg.id)} />
                             </>}
                     </div>
                 )

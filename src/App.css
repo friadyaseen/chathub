@@ -64,6 +64,7 @@ body {
     align-items: center;
     justify-content: space-between;
     grid-area: 1 / 1 / 2 / 2;
+    z-index: 5;
 }
 
 .logo>span {
@@ -473,3 +474,5 @@ button {
     border: solid var(--red) 2px;
     color: var(--red);
 }
+
+
