@@ -17,7 +17,7 @@ export default function Middle({ messeges, userc, uid, db, to, toi }) {
     return (
         <>
             {messeges.map((msg) => {
-
+                
                 return (
                     <div key={msg.id} id={checkuser(msg.from, uid)} className="messege-c">
                         {checkuser(msg.from, uid) === 'm' ?
